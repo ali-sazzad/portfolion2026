@@ -133,13 +133,13 @@ function goToSectionFromOtherPage(id: string) {
   className="flex min-w-0 items-center gap-2"
 >
           <span
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-sm font-semibold"
+            className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-semibold"
             style={{
               background: "linear-gradient(135deg, hsl(var(--brand)), hsl(var(--accent-b)))",
               color: "hsl(var(--brand-fg))",
             }}
           >
-            P26
+            SA26
           </span>
 
           <div className="min-w-0 leading-tight">
