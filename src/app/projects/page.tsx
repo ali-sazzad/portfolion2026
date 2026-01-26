@@ -123,21 +123,31 @@ export default function ProjectsPage({ searchParams }: Props) {
         </form>
 
         {/* Tag pills */}
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link href={buildHref({ q, sort })}>
-            <span className="cursor-pointer">
-              <Pill tone={!tag ? "brand" : "neutral"}>All</Pill>
-            </span>
-          </Link>
+<div className="mt-4 flex flex-wrap gap-2">
+  <Link href={buildHref({ q, sort })} aria-current={!tag ? "page" : undefined}>
+    <span className="cursor-pointer">
+      <Pill tone="brand" active={!tag}>All</Pill>
+    </span>
+  </Link>
 
-          {allTags.map((t) => (
-            <Link key={t} href={buildHref({ tag: t, q, sort })}>
-              <span className="cursor-pointer">
-                <Pill tone={tag === t ? "accent" : "neutral"}>{t}</Pill>
-              </span>
-            </Link>
-          ))}
-        </div>
+  {allTags.map((t) => {
+    const isActive = tag === t;
+    return (
+      <Link
+        key={t}
+        href={buildHref({ tag: t, q, sort })}
+        aria-current={isActive ? "page" : undefined}
+      >
+        <span className="cursor-pointer">
+          <Pill tone={isActive ? "accent" : "neutral"} active={isActive}>
+            {t}
+          </Pill>
+        </span>
+      </Link>
+    );
+  })}
+</div>
+
 
         {/* Current state row */}
         <div className="mt-4 flex flex-wrap items-center gap-2 text-xs" style={{ color: "hsl(var(--muted-fg))" }}>
