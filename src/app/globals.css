@@ -150,5 +150,11 @@ body {
 section[id] { scroll-margin-top: 90px; }
 main[id] { scroll-margin-top: 90px; }
 
+/* Timeline polish on small screens */
+@media (max-width: 768px) {
+  .section-tint {
+    backdrop-filter: blur(8px);
+  }
+}
 
 /* --------------------------------------- */
