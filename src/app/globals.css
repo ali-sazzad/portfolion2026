@@ -219,5 +219,39 @@ select:focus-visible {
   outline-offset: 2px;
   border-radius: 12px;
 }
+/* --- CLICK FIX: ensure decorative overlays never block interactions --- */
+.section-tint {
+  position: relative;
+}
+
+/* If you use pseudo overlays for tint/glass, they MUST not capture clicks */
+.section-tint::before,
+.section-tint::after {
+  pointer-events: none !important;
+}
+
+/* Ensure real content is above any overlay */
+.section-tint > * {
+  position: relative;
+  z-index: 1;
+}
+/* ===== Mobile/Safari click fix for backdrop-filter cards ===== */
+.section-tint {
+  position: relative;
+  isolation: isolate;              /* creates a new stacking context */
+  transform: translateZ(0);        /* fixes iOS hit-testing bugs */
+  -webkit-transform: translateZ(0);
+}
+
+/* Ensure glass effects never capture taps */
+.section-tint::before,
+.section-tint::after {
+  pointer-events: none !important;
+}
+
+/* Ensure children can receive taps */
+.section-tint * {
+  pointer-events: auto;
+}
 
 /* --------------------------------------- */

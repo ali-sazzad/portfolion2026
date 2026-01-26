@@ -1,4 +1,7 @@
+// src/app/projects/page.tsx
 import Link from "next/link";
+import { Search, X } from "lucide-react";
+
 import { portfolio } from "@/data/portfolio";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,40 +9,54 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 import { Pill } from "@/components/site/Pill";
 import { GradientBorderCard } from "@/components/site/GradientBorderCard";
 
+type SPValue = string | string[] | undefined;
+
+type SearchParams = {
+  q?: SPValue;
+  tag?: SPValue;
+  sort?: SPValue;
+  status?: SPValue;
+  stack?: SPValue;
+  featured?: SPValue; // "1"
+};
+
 type Props = {
-  searchParams?: {
-    q?: string;
-    tag?: string;
-    sort?: string;
-    status?: string;
-    stack?: string;
-    featured?: string; // "1" => featured only
-  };
+  searchParams?: SearchParams | Promise<SearchParams>;
 };
 
 function uniq<T>(arr: T[]) {
   return Array.from(new Set(arr));
 }
 
+/** normalize: string | string[] | undefined -> string */
+function asString(v: SPValue, fallback = "") {
+  if (Array.isArray(v)) return (v[0] ?? fallback).toString();
+  if (typeof v === "string") return v;
+  return fallback;
+}
+
 function buildHref(params: Record<string, string | undefined>) {
   const sp = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) {
-    if (v && v.trim().length) sp.set(k, v);
+    if (typeof v === "string" && v.trim().length) sp.set(k, v);
   }
   const qs = sp.toString();
   return qs ? `/projects?${qs}` : "/projects";
 }
 
-export default function ProjectsPage({ searchParams }: Props) {
-  const q = (searchParams?.q ?? "").trim();
+export default async function ProjectsPage({ searchParams }: Props) {
+  const raw = searchParams ? await Promise.resolve(searchParams) : {};
+
+  // ✅ Safe normalized params
+  const q = asString(raw.q).trim();
   const qLower = q.toLowerCase();
 
-  const tag = (searchParams?.tag ?? "").trim();
-  const sort = (searchParams?.sort ?? "featured").trim();
+  const tag = asString(raw.tag).trim();
+  const sort = asString(raw.sort, "featured").trim();
 
-  const status = (searchParams?.status ?? "").trim(); // one of statuses
-  const stack = (searchParams?.stack ?? "").trim(); // one of stack tags
-  const featuredOnly = (searchParams?.featured ?? "") === "1";
+  const status = asString(raw.status).trim();
+  const stack = asString(raw.stack).trim();
+  const featuredOnly = asString(raw.featured) === "1";
 
   const statuses = ["Live", "In Progress", "Case Study"] as const;
 
@@ -50,11 +67,8 @@ export default function ProjectsPage({ searchParams }: Props) {
 
   // Filters
   if (featuredOnly) items = items.filter((p) => p.featured);
-
   if (tag) items = items.filter((p) => p.tags.includes(tag));
-
   if (status) items = items.filter((p) => p.status === status);
-
   if (stack) items = items.filter((p) => p.stack.includes(stack));
 
   // Search
@@ -79,7 +93,6 @@ export default function ProjectsPage({ searchParams }: Props) {
   const baseParams = {
     q: q || undefined,
     sort: sort || undefined,
-    // we keep current filters unless intentionally replaced
     tag: tag || undefined,
     status: status || undefined,
     stack: stack || undefined,
@@ -120,23 +133,55 @@ export default function ProjectsPage({ searchParams }: Props) {
           description="Everything here is URL state. That means: shareable links, predictable behavior, and easy backend swap later."
         />
 
-        <form method="get" className="grid gap-3 md:grid-cols-3">
-          {/* Search */}
-          <div className="md:col-span-2">
+        {/* Search + Sort */}
+        <form method="get" className="mt-4 grid gap-3">
+          {/* ✅ Preserve current pill state when pressing Apply/Search */}
+          {tag ? <input type="hidden" name="tag" value={tag} /> : null}
+          {status ? <input type="hidden" name="status" value={status} /> : null}
+          {stack ? <input type="hidden" name="stack" value={stack} /> : null}
+          {sort ? <input type="hidden" name="sort" value={sort} /> : null}
+
+          {/* =========================
+              Row 1: Search only (full width)
+            ========================= */}
+          <div className="flex w-full gap-2">
             <Input
               name="q"
               defaultValue={q}
               placeholder="Search by name, tags, stack, status…"
-              className="rounded-xl"
+              className="h-10 flex-1 rounded-xl"
             />
+
+            <Button
+              type="submit"
+              className="h-10 rounded-xl px-3"
+              aria-label="Search"
+              style={{
+                background: "linear-gradient(135deg, hsl(var(--brand)), hsl(var(--accent-b)))",
+                color: "hsl(var(--brand-fg))",
+              }}
+            >
+              <Search className="h-4 w-4" />
+            </Button>
+
+            {hasAnyFilter ? (
+              <Link scroll={false} href="/projects" aria-label="Clear filters">
+                <Button type="button" variant="outline" className="h-10 rounded-xl px-3">
+                  <X className="h-4 w-4" />
+                </Button>
+              </Link>
+            ) : null}
           </div>
 
-          {/* Sort */}
-          <div className="flex gap-3">
+          {/* =========================
+              Row 2: Sort + Featured + Apply (aligned)
+            ========================= */}
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            {/* Left side: Sort takes remaining space */}
             <select
               name="sort"
               defaultValue={sort}
-              className="h-10 w-full rounded-xl border px-3 text-sm"
+              className="h-10 w-full rounded-xl border px-3 text-sm sm:flex-1"
               style={{
                 borderColor: "hsl(var(--border))",
                 background: "hsl(var(--card) / 0.8)",
@@ -149,160 +194,159 @@ export default function ProjectsPage({ searchParams }: Props) {
               <option value="name">Name (A → Z)</option>
             </select>
 
-            {/* Preserve current filters on submit */}
-            {tag ? <input type="hidden" name="tag" value={tag} /> : null}
-            {status ? <input type="hidden" name="status" value={status} /> : null}
-            {stack ? <input type="hidden" name="stack" value={stack} /> : null}
-            {featuredOnly ? <input type="hidden" name="featured" value="1" /> : null}
+            {/* Right side: Featured + Apply (always same row on >=sm) */}
+            <div className="flex items-center gap-2 sm:shrink-0">
+              <label
+                className="flex h-10 items-center gap-2 rounded-xl border px-3 text-sm"
+                style={{
+                  borderColor: "hsl(var(--border))",
+                  background: "hsl(var(--card) / 0.75)",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  name="featured"
+                  value="1"
+                  defaultChecked={featuredOnly}
+                  className="h-4 w-4"
+                />
+                <span className="whitespace-nowrap">Featured only</span>
+              </label>
 
-            <Button
-              className="rounded-xl"
-              style={{
-                background: "linear-gradient(135deg, hsl(var(--brand)), hsl(var(--accent-b)))",
-                color: "hsl(var(--brand-fg))",
-              }}
-            >
-              Apply
-            </Button>
+              <Button
+                type="submit"
+                className="h-10 rounded-xl px-5"
+                style={{
+                  background: "linear-gradient(135deg, hsl(var(--brand)), hsl(var(--accent-b)))",
+                  color: "hsl(var(--brand-fg))",
+                }}
+              >
+                Apply
+              </Button>
+            </div>
           </div>
         </form>
 
-        {/* Toggles row (Featured only) */}
+
+
+        {/* Toggles */}
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <Link href={buildHref({ ...baseParams, featured: featuredOnly ? undefined : "1" })}>
-            <span className="cursor-pointer">
-              <Pill tone={featuredOnly ? "accent" : "neutral"} active={featuredOnly}>
-                Featured only
-              </Pill>
-            </span>
+          <Link scroll={false} href={buildHref({ ...baseParams, featured: featuredOnly ? undefined : "1" })} className="inline-block">
+            <Pill tone={featuredOnly ? "accent" : "neutral"} active={featuredOnly}>
+              Featured only
+            </Pill>
           </Link>
 
           {hasAnyFilter ? (
-            <Link href="/projects">
-              <span className="cursor-pointer">
-                <Pill tone="neutral">Clear all</Pill>
-              </span>
+            <Link href="/projects" className="inline-block">
+              <Pill tone="neutral">Clear all</Pill>
             </Link>
           ) : null}
         </div>
 
-        {/* Tag pills */}
+        {/* Tags */}
         <div className="mt-4">
           <div className="text-xs font-semibold" style={{ color: "hsl(var(--muted-fg))" }}>
             Tags
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
-            <Link href={buildHref({ ...baseParams, tag: undefined })}>
-              <span className="cursor-pointer">
-                <Pill tone="brand" active={!tag}>
-                  All
-                </Pill>
-              </span>
+            <Link scroll={false} href={buildHref({ ...baseParams, tag: undefined })} className="inline-block">
+              <Pill tone="brand" active={!tag}>
+                All
+              </Pill>
             </Link>
 
             {allTags.map((t) => {
               const isActive = tag === t;
               return (
-                <Link key={t} href={buildHref({ ...baseParams, tag: t })} aria-current={isActive ? "page" : undefined}>
-                  <span className="cursor-pointer">
-                    <Pill tone={isActive ? "accent" : "neutral"} active={isActive}>
-                      {t}
-                    </Pill>
-                  </span>
+                <Link scroll={false} key={t} href={buildHref({ ...baseParams, tag: t })} className="inline-block">
+                  <Pill tone={isActive ? "accent" : "neutral"} active={isActive}>
+                    {t}
+                  </Pill>
                 </Link>
               );
             })}
           </div>
         </div>
 
-        {/* Status pills */}
+        {/* Status */}
         <div className="mt-5">
           <div className="text-xs font-semibold" style={{ color: "hsl(var(--muted-fg))" }}>
             Status
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
-            <Link href={buildHref({ ...baseParams, status: undefined })}>
-              <span className="cursor-pointer">
-                <Pill tone="brand" active={!status}>
-                  Any
-                </Pill>
-              </span>
+            <Link scroll={false} href={buildHref({ ...baseParams, status: undefined })} className="inline-block">
+              <Pill tone="brand" active={!status}>
+                Any
+              </Pill>
             </Link>
 
             {statuses.map((s) => {
               const isActive = status === s;
               return (
-                <Link key={s} href={buildHref({ ...baseParams, status: s })} aria-current={isActive ? "page" : undefined}>
-                  <span className="cursor-pointer">
-                    <Pill tone={isActive ? "accent" : "neutral"} active={isActive}>
-                      {s}
-                    </Pill>
-                  </span>
+                <Link scroll={false} key={s} href={buildHref({ ...baseParams, status: s })} className="inline-block">
+                  <Pill tone={isActive ? "accent" : "neutral"} active={isActive}>
+                    {s}
+                  </Pill>
                 </Link>
               );
             })}
           </div>
         </div>
 
-        {/* Stack pills */}
+        {/* Stack */}
         <div className="mt-5">
           <div className="text-xs font-semibold" style={{ color: "hsl(var(--muted-fg))" }}>
             Stack
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
-            <Link href={buildHref({ ...baseParams, stack: undefined })}>
-              <span className="cursor-pointer">
-                <Pill tone="brand" active={!stack}>
-                  Any
-                </Pill>
-              </span>
+            <Link scroll={false} href={buildHref({ ...baseParams, stack: undefined })} className="inline-block">
+              <Pill tone="brand" active={!stack}>
+                Any
+              </Pill>
             </Link>
 
             {allStacks.map((st) => {
               const isActive = stack === st;
               return (
-                <Link key={st} href={buildHref({ ...baseParams, stack: st })} aria-current={isActive ? "page" : undefined}>
-                  <span className="cursor-pointer">
-                    <Pill tone={isActive ? "accent" : "neutral"} active={isActive}>
-                      {st}
-                    </Pill>
-                  </span>
+                <Link scroll={false} key={st} href={buildHref({ ...baseParams, stack: st })} className="inline-block">
+                  <Pill tone={isActive ? "accent" : "neutral"} active={isActive}>
+                    {st}
+                  </Pill>
                 </Link>
               );
             })}
           </div>
         </div>
 
-        {/* Current state row */}
-        <div className="mt-5 flex flex-wrap items-center gap-2 text-xs" style={{ color: "hsl(var(--muted-fg))" }}>
-          <span>
-            Showing <b style={{ color: "hsl(var(--fg))" }}>{items.length}</b> results
-          </span>
-          {featuredOnly ? (
-            <span>
-              • <b style={{ color: "hsl(var(--fg))" }}>Featured only</b>
-            </span>
+        {/* State line */}
+        <div className="mt-5 text-xs" style={{ color: "hsl(var(--muted-fg))" }}>
+          Showing <b style={{ color: "hsl(var(--fg))" }}>{items.length}</b> results
+          {q ? (
+            <>
+              {" "}
+              • Query: <b style={{ color: "hsl(var(--fg))" }}>{q}</b>
+            </>
           ) : null}
           {tag ? (
-            <span>
+            <>
+              {" "}
               • Tag: <b style={{ color: "hsl(var(--fg))" }}>{tag}</b>
-            </span>
+            </>
           ) : null}
           {status ? (
-            <span>
+            <>
+              {" "}
               • Status: <b style={{ color: "hsl(var(--fg))" }}>{status}</b>
-            </span>
+            </>
           ) : null}
           {stack ? (
-            <span>
+            <>
+              {" "}
               • Stack: <b style={{ color: "hsl(var(--fg))" }}>{stack}</b>
-            </span>
+            </>
           ) : null}
-          {q ? (
-            <span>
-              • Query: <b style={{ color: "hsl(var(--fg))" }}>{q}</b>
-            </span>
-          ) : null}
+          {featuredOnly ? <> • <b style={{ color: "hsl(var(--fg))" }}>Featured only</b></> : null}
         </div>
       </div>
 
@@ -314,7 +358,7 @@ export default function ProjectsPage({ searchParams }: Props) {
             Try clearing a filter or using a different search term.
           </p>
           <div className="mt-4 flex gap-3">
-            <Link href="/projects">
+            <Link scroll={false} href="/projects">
               <Button variant="outline" className="rounded-xl">
                 Clear filters
               </Button>
