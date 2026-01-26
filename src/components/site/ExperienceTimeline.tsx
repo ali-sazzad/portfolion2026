@@ -50,7 +50,7 @@ export function ExperienceTimeline({ items }: { items: readonly ExperienceItem[]
             />
           </div>
 
-          <Card className="section-tint rounded-2xl p-5 md:p-6">
+          <Card className="section-tint lift rounded-2xl p-5 md:p-6">
             <div className="flex flex-wrap items-start justify-between gap-2 md:gap-3">
               <div>
                 <div className="text-base font-semibold md:text-lg">{x.role}</div>

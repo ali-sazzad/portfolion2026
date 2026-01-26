@@ -4,7 +4,7 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-10 md:py-14">
+    <section id="about" className="section reveal reveal-delay-1">
       <div className="section-tint rounded-2xl p-6 md:p-10">
         <SectionHeader title="About" description={portfolio.about.bio} />
 
@@ -12,7 +12,7 @@ export function AboutSection() {
           {portfolio.about.details.map((d) => (
             <Card
               key={d.label}
-              className="rounded-xl p-4"
+              className="rounded-xl p-4 lift"
               style={{
                 background: "hsl(var(--card) / 0.65)",
                 border: "1px solid hsl(var(--border))",

@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 
 export function HeroSection() {
   return (
-    <section id="home" className="py-14 md:py-20">
+    <section id="home" className="reveal section pt-14 md:pt-20">
       <div className="grid items-center gap-10 md:grid-cols-2">
         <div>
           <Badge

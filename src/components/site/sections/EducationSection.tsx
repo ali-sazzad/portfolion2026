@@ -4,12 +4,12 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 
 export function EducationSection() {
   return (
-    <section id="education" className="py-10 md:py-14">
+    <section id="education" className="section reveal reveal-delay-3">
       <SectionHeader title="Education" />
 
       <div className="grid gap-4 md:grid-cols-2">
         {portfolio.education.map((e) => (
-          <Card key={e.school} className="section-tint rounded-2xl p-6">
+          <Card key={e.school} className="section-tint lift rounded-2xl p-6">
             <div className="text-sm font-semibold" style={{ color: "hsl(var(--muted-fg))" }}>
               {e.period}
             </div>

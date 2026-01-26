@@ -4,7 +4,7 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="py-10 md:py-14">
+    <section id="skills" className="section reveal reveal-delay-2">
       <SectionHeader
         title="Skills"
         description="Categories are data-driven from src/data/portfolio.ts."
@@ -12,7 +12,7 @@ export function SkillsSection() {
 
       <div className="grid gap-4 md:grid-cols-3">
         {portfolio.skills.map((cat) => (
-          <Card key={cat.category} className="section-tint rounded-2xl p-5">
+          <Card key={cat.category} className="section-tint lift rounded-2xl p-5">
             <div className="font-semibold">{cat.category}</div>
             <div className="mt-3 flex flex-wrap gap-2">
               {cat.items.map((s) => (

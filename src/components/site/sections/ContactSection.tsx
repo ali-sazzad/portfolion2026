@@ -5,8 +5,8 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 
 export function ContactSection() {
   return (
-    <section id="contact" className="py-10 md:py-14">
-      <div className="section-tint rounded-2xl p-6 md:p-10">
+    <section id="contact" className="section reveal reveal-delay-3">
+      <div className="section-tint lift rounded-2xl p-6 md:p-10">
         <SectionHeader
           title="Contact"
           description="Form validation + draft persistence + simulated submit comes in Sprint 4."
