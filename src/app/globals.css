@@ -1,26 +1,98 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+/* ---------------------------------------
+   Portfolion2026 — Aurora Blue tokens
+   Edit these to swap themes.
+--------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core */
+  --bg: 225 60% 98%;
+  --fg: 222 47% 11%;
+  --muted: 220 14% 96%;
+  --muted-fg: 215 16% 47%;
+  --card: 0 0% 100%;
+  --border: 220 20% 90%;
+
+  /* Brand */
+  --brand: 221 83% 53%;     /* #2563EB */
+  --brand-fg: 0 0% 100%;
+
+  /* Accent (used as highlights, not everywhere) */
+  --accent-a: 142 71% 45%;  /* #22C55E */
+  --accent-b: 270 91% 65%;  /* #A855F7 */
+
+  /* Focus ring */
+  --ring: 221 83% 53%;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: hsl(var(--fg));
+  background:
+    radial-gradient(900px 500px at 15% 10%, hsl(var(--brand) / 0.14), transparent 60%),
+    radial-gradient(800px 500px at 85% 20%, hsl(var(--accent-b) / 0.12), transparent 55%),
+    radial-gradient(900px 500px at 50% 95%, hsl(var(--accent-a) / 0.10), transparent 55%),
+    hsl(var(--bg));
+}
+
+/* Nice focus rings (keyboard) */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* Soft section tint helper */
+.section-tint {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card) / 0.78),
+    hsl(var(--card) / 0.58)
+  );
+  border: 1px solid hsl(var(--border));
+  backdrop-filter: blur(10px);
+}
+
+/* Tiny rotating-words animation (no JS needed) */
+.rotate-words {
+  position: relative;
+  display: inline-block;
+  height: 1.3em;
+  vertical-align: bottom;
+}
+
+.rotate-words > span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: wordFade 18s infinite;
+  white-space: nowrap;
+}
+
+.rotate-words > span:nth-child(1) { animation-delay: 0s; }
+.rotate-words > span:nth-child(2) { animation-delay: 3s; }
+.rotate-words > span:nth-child(3) { animation-delay: 6s; }
+.rotate-words > span:nth-child(4) { animation-delay: 9s; }
+.rotate-words > span:nth-child(5) { animation-delay: 12s; }
+.rotate-words > span:nth-child(6) { animation-delay: 15s; }
+
+@keyframes wordFade {
+  0% { opacity: 0; transform: translateY(6px); }
+  10% { opacity: 1; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(0); }
+  40% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 0; }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rotate-words > span { animation: none; opacity: 1; position: static; transform: none; }
 }
