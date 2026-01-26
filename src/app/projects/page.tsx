@@ -215,7 +215,7 @@ export default async function ProjectsPage({ searchParams }: Props) {
 
               <Button
                 type="submit"
-                className="h-10 rounded-xl px-5"
+                className=" scroll={false} h-10 rounded-xl px-5"
                 style={{
                   background: "linear-gradient(135deg, hsl(var(--brand)), hsl(var(--accent-b)))",
                   color: "hsl(var(--brand-fg))",
