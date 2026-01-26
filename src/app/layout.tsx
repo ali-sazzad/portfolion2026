@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Navbar } from "@/components/site/Navbar";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://portfolion2026.vercel.app"),
@@ -12,21 +13,17 @@ export const metadata: Metadata = {
     "A colorful, product-style portfolio built with Next.js App Router, TypeScript, Tailwind, and shadcn/ui — demoable without a backend, backend-ready by design.",
   openGraph: {
     title: "Portfolion2026 — Product-style Portfolio",
-    description:
-      "Colorful, modern, and structured like a real product — ready for backend injection later.",
+    description: "Colorful, modern, structured like a real product — backend-ready by design.",
     type: "website",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen antialiased">
-        {/* Sticky nav will move into a reusable <Navbar /> component in Sprint 2 */}
+        <Navbar />
         {children}
         <Toaster richColors />
       </body>

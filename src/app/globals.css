@@ -58,12 +58,14 @@ body {
   backdrop-filter: blur(10px);
 }
 
-/* Tiny rotating-words animation (no JS needed) */
+/* Rotating words — 6 phrases, NO overlap, readable hold, quick swap */
 .rotate-words {
   position: relative;
   display: inline-block;
-  height: 1.3em;
+  height: 1.35em;
+  line-height: 1.35em;
   vertical-align: bottom;
+  min-width: 30ch; /* optional */
 }
 
 .rotate-words > span {
@@ -71,11 +73,14 @@ body {
   left: 0;
   top: 0;
   opacity: 0;
-  transform: translateY(6px);
-  animation: wordFade 18s infinite;
+  transform: translateY(4px);
   white-space: nowrap;
+
+  /* Total cycle = 18s (6 phrases × 3s) */
+  animation: wordSlot 18s infinite;
 }
 
+/* Each phrase starts every 3 seconds */
 .rotate-words > span:nth-child(1) { animation-delay: 0s; }
 .rotate-words > span:nth-child(2) { animation-delay: 3s; }
 .rotate-words > span:nth-child(3) { animation-delay: 6s; }
@@ -83,16 +88,66 @@ body {
 .rotate-words > span:nth-child(5) { animation-delay: 12s; }
 .rotate-words > span:nth-child(6) { animation-delay: 15s; }
 
-@keyframes wordFade {
-  0% { opacity: 0; transform: translateY(6px); }
-  10% { opacity: 1; transform: translateY(0); }
-  30% { opacity: 1; transform: translateY(0); }
-  40% { opacity: 0; transform: translateY(-6px); }
-  100% { opacity: 0; }
+/*
+  Important: With 6 phrases, one slot is 3s which is 16.66% of 18s.
+  So we keep everything visible ONLY in the first ~14% of the cycle.
+
+  The rule you need for future edits (this is the key)
+
+  Each phrase gets a slot:
+
+  slotSeconds = totalDuration / numberOfPhrases
+
+  Each phrase must be visible ONLY inside its slot, and hidden for the rest of the full cycle.
+
+  So you must scale keyframes to match this:
+
+  totalDuration = phrases × slotSeconds
+
+  delay step = slotSeconds
+
+  keyframes must finish fade-out before the next slot begins.
+  Quick template for any number of phrases
+
+  If you want N phrases with S seconds per phrase:
+
+  duration = N * S
+
+  delay(i) = i * S
+
+  In keyframes, keep visibility within 0% .. (100/N)% (and fade out before that ends)
+
+  Example:
+
+  N=3 → slot=33.33%
+
+  N=6 → slot=16.66%
+
+  N=8 → slot=12.5%
+*/
+/* Keyframes for rotating words */
+@keyframes wordSlot {
+  0%    { opacity: 0; transform: translateY(4px); }
+  2%    { opacity: 1; transform: translateY(0); }    /* fast in */
+  12%   { opacity: 1; transform: translateY(0); }    /* hold readable */
+  14%   { opacity: 0; transform: translateY(-4px); } /* fast out */
+  100%  { opacity: 0; transform: translateY(-4px); } /* hidden rest */
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .rotate-words > span { animation: none; opacity: 1; position: static; transform: none; }
+  .rotate-words { min-width: 0; height: auto; }
+  .rotate-words > span {
+    animation: none;
+    opacity: 1;
+    position: static;
+    transform: none;
+    display: block;
+  }
 }
+
+
+/* Prevent anchor targets from hiding behind sticky navbar */
+section[id] {
+  scroll-margin-top: 90px;
+}
+/* --------------------------------------- */

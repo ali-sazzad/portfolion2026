@@ -3,89 +3,14 @@ import { portfolio } from "@/data/portfolio";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
-const nav = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#education", label: "Education" },
-  { href: "#experience", label: "Experience" },
-  { href: "#achievements", label: "Achievements" },
-  { href: "#contact", label: "Contact" },
-];
 
 export default function HomePage() {
   const featured = portfolio.projects.filter((p) => p.featured).slice(0, 3);
 
   return (
     <div>
-      {/* Sticky Navbar (scrollspy comes in Sprint 2) */}
-      <header
-        className="sticky top-0 z-50 border-b"
-        style={{
-          background: "linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--card) / 0.70))",
-          borderColor: "hsl(var(--border))",
-          backdropFilter: "blur(10px)",
-        }}
-      >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link href="/" className="flex items-center gap-2">
-            <span
-              className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-sm font-semibold"
-              style={{
-                background:
-                  "linear-gradient(135deg, hsl(var(--brand)), hsl(var(--accent-b)))",
-                color: "hsl(var(--brand-fg))",
-              }}
-            >
-              P26
-            </span>
-            <div className="leading-tight">
-              <div className="text-sm font-semibold">{portfolio.profile.name}</div>
-              <div className="text-xs" style={{ color: "hsl(var(--muted-fg))" }}>
-                {portfolio.profile.title}
-              </div>
-            </div>
-          </Link>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            {nav.map((i) => (
-              <a
-                key={i.href}
-                href={i.href}
-                className="rounded-lg px-3 py-2 text-sm transition hover:opacity-90"
-                style={{ color: "hsl(var(--muted-fg))" }}
-              >
-                {i.label}
-              </a>
-            ))}
-            <Separator orientation="vertical" className="mx-2 h-6" />
-            <Link href="/projects">
-              <Button
-                className="rounded-xl"
-                style={{
-                  background:
-                    "linear-gradient(135deg, hsl(var(--brand)), hsl(var(--accent-b)))",
-                  color: "hsl(var(--brand-fg))",
-                }}
-              >
-                View Projects
-              </Button>
-            </Link>
-          </nav>
-
-          {/* Mobile nav becomes Sheet/Drawer in Sprint 2 */}
-          <div className="md:hidden">
-            <Link href="/projects">
-              <Button variant="outline" className="rounded-xl">
-                Projects
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
+      
       {/* HERO */}
       <main id="home" className="mx-auto max-w-6xl px-4">
         <section className="py-14 md:py-20">
@@ -128,7 +53,7 @@ export default function HomePage() {
                 >
                   {portfolio.heroRotatingPhrases.slice(0, 6).map((w) => (
                     <span key={w}>{w}</span>
-                  ))}
+              ))}
                 </span>
               </p>
 
