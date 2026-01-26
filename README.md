@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolion2026
 
-## Getting Started
+A colorful, product-style portfolio built with **Next.js App Router**, **TypeScript**, **Tailwind**, and **shadcn/ui**.
+It’s fully demoable without a backend (mock content + client-safe patterns) and intentionally designed with clean **backend injection points** for future expansion.
 
-First, run the development server:
+## Live
+- Demo: (add your Vercel link)
+- Resume PDF: (add link)
 
+## Why this project is different
+Most portfolios are static templates. This one behaves like a product:
+- Multi-page App Router structure (Home + Projects + Resume + Styleguide)
+- Scrollspy navigation (active section highlight)
+- URL-driven projects filtering/sorting (shareable state)
+- Clear UI states (empty results, form success/error)
+- Design tokens + cohesive color system (not random rainbow)
+- Backend-ready boundaries (server actions/route handlers can be added later)
+
+## Tech Stack
+- Next.js (App Router)
+- React + TypeScript
+- Tailwind CSS
+- shadcn/ui (Radix primitives)
+- react-hook-form + zod (forms)
+- lucide-react (icons)
+
+## Local Setup
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+## Project Structure
+```bash
+src/
+  app/                 # App Router pages
+  components/
+    ui/                # shadcn components
+    site/              # reusable site components
+  data/                # portfolio content single source of truth
+  lib/                 # utilities (hooks/helpers)
+```
+## Backend Injection Points (Future)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Planned upgrade path:**
+<ul>
+    Contact form → server action (Resend / EmailJS / API route)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    Projects → fetched from DB (Postgres + Prisma)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    Auth → NextAuth/Clerk integration
 
-## Learn More
+    CMS → blog via Contentful/Sanity/MDX
+</ul>
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ **MIT**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### `CONTRIBUTING.md`
+```md
+# Contributing to Portfolion2026
 
-## Deploy on Vercel
+## Goals
+- Keep the site fast, accessible, and cleanly structured.
+- Avoid UI soup: shadcn/ui is the “soul”; other patterns only if they clearly add value.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## How to add a new section
+1. Add content in `src/data/portfolio.ts`
+2. Create a component in `src/components/site/sections/`
+3. Render it from `src/app/page.tsx`
+4. Add the section id to the navbar sections list
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Backend-ready rules
+- Prefer server components by default
+- Use client components only for:
+  - scrollspy / intersection observer
+  - localStorage persistence
+  - form handling
+- Keep “data boundaries” clean (swap mock data → API later)
+
+## PR Checklist
+- Keyboard navigation works
+- Focus rings visible
+- Reduced motion respected
+- No heavy animation libs
+- No layout shift regressions
