@@ -147,7 +147,8 @@ body {
 
 
 /* Prevent anchor targets from hiding behind sticky navbar */
-section[id] {
-  scroll-margin-top: 90px;
-}
+section[id] { scroll-margin-top: 90px; }
+main[id] { scroll-margin-top: 90px; }
+
+
 /* --------------------------------------- */

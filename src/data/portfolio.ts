@@ -15,12 +15,12 @@ export type PortfolioProject = {
 
 export const portfolio = {
   profile: {
-    name: "Your Name",
+    name: "Sazzad Ali",
     title: "Frontend Developer • Next.js • UI Engineering",
     shortIntro:
       "I build product-style web experiences with strong UX states, clean architecture, and performance-first UI.",
     location: "Sydney, Australia",
-    email: "you@example.com",
+    email: "find.sazzadali@gmail.com",
     socials: {
       github: "https://github.com/your-handle",
       linkedin: "https://linkedin.com/in/your-handle",
