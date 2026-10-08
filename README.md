@@ -16,8 +16,8 @@ Live demo: https://portfolion2026.vercel.app
 | --- | --- |
 | Three.js | Hero WebGL blob (custom GLSL shader) |
 | Theatre.js | Timeline that choreographs the blob's intro (`src/lib/heroSequence.ts`) |
-| GSAP + ScrollTrigger | Hero intro and scroll exit, scrubbed About statement, skills marquee that reacts to scroll speed, project cover parallax |
-| Motion (motion.dev) | Header progress bar and menu, services accordion, project index wipe, filter layout animations, counters, magnetic buttons, page transitions |
+| GSAP + ScrollTrigger | Hero intro, tilted ribbon, pinned horizontal work strip, scrubbed About statement, drawing experience timeline, cover parallax |
+| Motion (motion.dev) | Back-to-top with progress ring, header progress bar, stacked service cards, stat rings, draggable toolbox stickers, 3D tilt cards, filter layout animations, magnetic buttons, page transitions |
 | Animate.css | Form validation shake and success tick |
 
 Reduced-motion preferences are respected everywhere, and the hero degrades to plain cobalt if WebGL is unavailable.

@@ -34,6 +34,7 @@ html {
 }
 
 body {
+  overflow-x: clip;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-display), system-ui, sans-serif;
@@ -84,6 +85,40 @@ body {
   top: 1rem;
 }
 
+/* Topographic rings: the site's signature texture, echoing the hero blob. */
+.contour {
+  background-image:
+    repeating-radial-gradient(circle at 10% 20%, transparent 0 38px, rgba(255, 255, 255, 0.08) 38px 39.5px),
+    repeating-radial-gradient(circle at 92% 85%, transparent 0 46px, rgba(255, 255, 255, 0.06) 46px 47.5px);
+}
+.contour-dark {
+  background-image:
+    repeating-radial-gradient(circle at 15% 25%, transparent 0 30px, rgba(15, 18, 34, 0.12) 30px 31.5px),
+    repeating-radial-gradient(circle at 85% 75%, transparent 0 40px, rgba(15, 18, 34, 0.09) 40px 41.5px);
+}
+.dots {
+  background-image: radial-gradient(rgba(15, 18, 34, 0.18) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 22s linear infinite; }
+
+/* Recognition rows: a colour wipe sweeps in from the left on hover or focus. */
+.award {
+  background-image: linear-gradient(var(--cobalt), var(--cobalt));
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 450ms cubic-bezier(0.76, 0, 0.24, 1), color 250ms;
+}
+.award:hover,
+.award:focus-within {
+  background-size: 100% 100%;
+  color: #fff;
+}
+.award:hover .award-sub,
+.award:focus-within .award-sub { color: rgba(255, 255, 255, 0.8); }
+
 /* Hero name: letters respond to the pointer through width and weight. */
 .wname span {
   display: inline-block;
@@ -92,9 +127,15 @@ body {
   will-change: font-variation-settings;
 }
 
+.wname > span {
+  display: block;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .wname span { transition: none; }
+  .spin-slow { animation: none; }
+  .award { transition: none; }
 }
 
 /* Resume: print as a clean document. */

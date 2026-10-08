@@ -1,53 +1,68 @@
 "use client";
 
-import { animate, useInView, useReducedMotion } from "motion/react";
+import { animate, motion, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 
-type Stat = { value: number; suffix: string; label: string };
+type Stat = { value: number; max: number; suffix: string; label: string };
 
-function Counter({ value, suffix }: { value: number; suffix: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
+function Ring({ stat }: { stat: Stat }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const num = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -15% 0px" });
   const reduce = useReducedMotion();
 
   useEffect(() => {
-    const el = ref.current;
+    const el = num.current;
     if (!el || !inView) return;
     if (reduce) {
-      el.textContent = `${value}${suffix}`;
+      el.textContent = `${stat.value}${stat.suffix}`;
       return;
     }
-    const controls = animate(0, value, {
-      duration: 1.8,
+    const c = animate(0, stat.value, {
+      duration: 2,
       ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => (el.textContent = `${Math.round(v)}${suffix}`),
+      onUpdate: (v) => (el.textContent = `${Math.round(v)}${stat.suffix}`),
     });
-    return () => controls.stop();
-  }, [inView, value, suffix, reduce]);
+    return () => c.stop();
+  }, [inView, reduce, stat.value, stat.suffix]);
 
   return (
-    <span ref={ref} className="tabular-nums">
-      {value}
-      {suffix}
-    </span>
+    <div ref={ref} className="text-center">
+      <div className="relative mx-auto aspect-square w-full max-w-[220px]">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 size-full -rotate-90" aria-hidden="true">
+          <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,.14)" strokeWidth="2.5" />
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="44"
+            fill="none"
+            stroke="#ffd84d"
+            strokeWidth="4"
+            strokeLinecap="round"
+            initial={{ pathLength: reduce ? stat.value / stat.max : 0 }}
+            animate={{ pathLength: inView ? stat.value / stat.max : 0 }}
+            transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </svg>
+        <span className="display absolute inset-0 grid place-items-center text-5xl font-semibold tabular-nums md:text-6xl">
+          <span ref={num}>
+            {stat.value}
+            {stat.suffix}
+          </span>
+        </span>
+      </div>
+      <p className="mt-4 text-[15px] text-white/75">{stat.label}</p>
+    </div>
   );
 }
 
-/** Motion: numbers count up when they scroll into view. */
+/** Motion: each figure is a ring that fills while the number counts up. */
 export function Stats({ stats }: { stats: readonly Stat[] }) {
   return (
-    <dl className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">
       {stats.map((s) => (
-        <div key={s.label} className="border-t-4 border-butter pt-4">
-          <dt className="sr-only">{s.label}</dt>
-          <dd className="display text-6xl font-semibold md:text-7xl">
-            <Counter value={s.value} suffix={s.suffix} />
-          </dd>
-          <p aria-hidden="true" className="mt-2 text-[15px] text-white/70">
-            {s.label}
-          </p>
-        </div>
+        <Ring key={s.label} stat={s} />
       ))}
-    </dl>
+    </div>
   );
 }

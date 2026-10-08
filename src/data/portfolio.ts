@@ -36,10 +36,10 @@ export const portfolio = {
   },
 
   stats: [
-    { value: 7, suffix: "", label: "years shipping interfaces" },
-    { value: 40, suffix: "+", label: "projects delivered" },
-    { value: 96, suffix: "%", label: "average Lighthouse score" },
-    { value: 2, suffix: "", label: "day reply time" },
+    { value: 7, max: 10, suffix: "", label: "years shipping interfaces" },
+    { value: 40, max: 50, suffix: "+", label: "projects delivered" },
+    { value: 96, max: 100, suffix: "%", label: "average Lighthouse score" },
+    { value: 2, max: 7, suffix: "", label: "day reply time" },
   ],
 
   about: [

@@ -41,8 +41,26 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={root} className="relative overflow-hidden bg-cobalt text-white">
+    <section ref={root} className="contour relative overflow-hidden bg-cobalt text-white">
       <HeroScene />
+      <div
+        aria-hidden="true"
+        className="absolute right-6 top-6 z-10 hidden size-32 place-items-center md:grid lg:right-12 lg:top-10"
+      >
+        <svg viewBox="0 0 120 120" className="spin-slow absolute inset-0 size-full">
+          <defs>
+            <path id="badge-circle" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" />
+          </defs>
+          <text fill="#fff" fontSize="10.5" fontWeight="600">
+            <textPath href="#badge-circle" textLength="283" lengthAdjust="spacing">Scroll down &#183; See the work &#183; Scroll down &#183;</textPath>
+          </text>
+        </svg>
+        <span className="grid size-12 place-items-center rounded-full bg-butter text-ink">
+          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </span>
+      </div>
       <div
         data-hero-content
         className="relative mx-auto flex min-h-[calc(100svh-3.5rem)] max-w-6xl flex-col justify-between px-5 pb-10 pt-10 md:pt-14"

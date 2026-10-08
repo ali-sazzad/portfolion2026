@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import type { Project } from "@/data/portfolio";
 import { ProjectThumb } from "./ProjectThumb";
+import { TiltCard } from "./TiltCard";
 
 /** Motion: filtering reflows the grid with shared-layout animation; the active chip slides between options. */
 export function ProjectGrid({
@@ -69,6 +70,7 @@ export function ProjectGrid({
               transition={{ type: "spring", stiffness: 260, damping: 30 }}
               className={i % 2 === 1 ? "sm:mt-16" : ""}
             >
+              <TiltCard>
               <Link href={`/projects/${p.id}`} className="group block">
                 <div className="aspect-[4/3] overflow-hidden rounded-2xl border border-ink bg-ink">
                   <ProjectThumb project={p} className="transition-transform duration-500 group-hover:scale-105" />
@@ -84,6 +86,7 @@ export function ProjectGrid({
                 </p>
                 <p className="mt-2 max-w-[44ch]">{p.pitch}</p>
               </Link>
+              </TiltCard>
             </motion.li>
           ))}
         </AnimatePresence>
