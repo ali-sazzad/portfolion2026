@@ -1,5 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* Animate.css: only the attention seekers we use (form feedback). */
+@import "animate.css/source/_vars.css";
+@import "animate.css/source/_base.css";
+@import "animate.css/source/attention_seekers/headShake.css";
+@import "animate.css/source/attention_seekers/tada.css";
 
 :root {
   --cobalt: #2a35ff;
@@ -87,21 +92,8 @@ body {
   will-change: font-variation-settings;
 }
 
-/* One entrance sequence for the hero. */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: none; }
-}
-.hero-in > * {
-  animation: rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-.hero-in > *:nth-child(2) { animation-delay: 120ms; }
-.hero-in > *:nth-child(3) { animation-delay: 240ms; }
-.hero-in > *:nth-child(4) { animation-delay: 360ms; }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero-in > * { animation: none; }
   .wname span { transition: none; }
 }
 

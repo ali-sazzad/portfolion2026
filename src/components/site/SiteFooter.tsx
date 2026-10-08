@@ -18,9 +18,12 @@ export function SiteFooter() {
           ))}
         </ul>
       </div>
-      <p className="mx-auto max-w-6xl px-5 pb-8 text-xs text-mute">
+      <p className="mx-auto max-w-6xl px-5 pb-6 text-xs text-mute">
         This is a sample portfolio. The person, employers and projects shown are fictional.
       </p>
+      <div className="bg-ink py-6 text-center text-sm text-white">
+        Designed and developed by <span className="font-semibold text-butter">AayoCreations</span>
+      </div>
     </footer>
   );
 }

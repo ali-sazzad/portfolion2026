@@ -11,6 +11,17 @@ Live demo: https://portfolion2026.vercel.app
 - All content lives in `src/data/portfolio.ts`, so swapping in a real person takes minutes
 - Accessible by default: skip link, visible focus, reduced-motion support, semantic landmarks
 
+## Animation stack
+| Library | Where it is used |
+| --- | --- |
+| Three.js | Hero WebGL blob (custom GLSL shader) |
+| Theatre.js | Timeline that choreographs the blob's intro (`src/lib/heroSequence.ts`) |
+| GSAP + ScrollTrigger | Hero intro and scroll exit, scrubbed About statement, skills marquee that reacts to scroll speed, project cover parallax |
+| Motion (motion.dev) | Header progress bar and menu, services accordion, project index wipe, filter layout animations, counters, magnetic buttons, page transitions |
+| Animate.css | Form validation shake and success tick |
+
+Reduced-motion preferences are respected everywhere, and the hero degrades to plain cobalt if WebGL is unavailable.
+
 ## Run locally
 ```bash
 npm install

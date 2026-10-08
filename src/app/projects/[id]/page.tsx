@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, portfolio } from "@/data/portfolio";
 import { ProjectThumb } from "@/components/site/ProjectThumb";
+import { ParallaxCover } from "@/components/site/ParallaxCover";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -40,9 +41,9 @@ export default async function ProjectPage({ params }: Props) {
       </header>
 
       <div className="mx-auto max-w-6xl px-5">
-        <div className="aspect-[16/9] overflow-hidden rounded-3xl border border-ink bg-ink">
+        <ParallaxCover>
           <ProjectThumb project={p} />
-        </div>
+        </ParallaxCover>
       </div>
 
       <div className="mx-auto grid max-w-6xl gap-12 px-5 py-14 md:grid-cols-[260px_1fr] md:py-20">

@@ -47,7 +47,7 @@ export function WeightName({ lines }: { lines: string[] }) {
   return (
     <h1
       ref={root}
-      className="display wname text-[clamp(4.5rem,19vw,16rem)] font-semibold text-white"
+      className="display wname text-[clamp(4rem,min(17vw,24vh),14rem)] font-semibold text-white"
       aria-label={lines.join(" ")}
     >
       {lines.map((line) => (

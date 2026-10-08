@@ -35,6 +35,13 @@ export const portfolio = {
     ],
   },
 
+  stats: [
+    { value: 7, suffix: "", label: "years shipping interfaces" },
+    { value: 40, suffix: "+", label: "projects delivered" },
+    { value: 96, suffix: "%", label: "average Lighthouse score" },
+    { value: 2, suffix: "", label: "day reply time" },
+  ],
+
   about: [
     "I'm a design engineer with seven years of experience shipping interfaces for startups and product teams. I work in the space between design and code, so decisions don't get lost in handoff.",
     "My focus is design systems, data-heavy dashboards and marketing sites that load quickly and read well on every screen. I care about the unglamorous details: empty states, error messages, keyboard focus and loading behaviour.",
@@ -52,14 +59,17 @@ export const portfolio = {
     {
       name: "Product interfaces",
       body: "Dashboards, onboarding flows and settings screens designed against real data and built in React.",
+      includes: ["Research and flow mapping", "High-fidelity design in Figma", "Production React build", "Usability testing and iteration"],
     },
     {
       name: "Design systems",
       body: "Tokens, components and documentation that a team can actually adopt, with accessibility built in.",
+      includes: ["Audit of your current UI", "Design tokens and theming", "Documented, tested components", "Team onboarding and handover"],
     },
     {
       name: "Marketing sites",
       body: "Fast, well-written sites with clean SEO, tuned to hit Core Web Vitals on mid-range phones.",
+      includes: ["Content and structure workshop", "Design and motion direction", "Next.js build with a simple editor", "Performance and SEO launch checklist"],
     },
   ],
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { motion } from "motion/react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { portfolio } from "@/data/portfolio";
@@ -18,6 +19,7 @@ const field =
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const {
     register,
     handleSubmit,
@@ -34,22 +36,31 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div role="status" className="rounded-2xl bg-butter p-8 text-ink">
+      <motion.div
+        role="status"
+        initial={{ scale: 0.85, opacity: 0, rotate: -2 }}
+        animate={{ scale: 1, opacity: 1, rotate: 0 }}
+        transition={{ type: "spring", stiffness: 260, damping: 18 }}
+        className="rounded-2xl bg-ink p-8 text-white"
+      >
+        <span aria-hidden="true" className="animated tada mb-4 grid size-14 place-items-center rounded-full bg-butter text-3xl text-ink">
+          &#10003;
+        </span>
         <p className="display text-3xl font-semibold">Message sent</p>
         <p className="mt-3 max-w-[40ch]">
           Thanks for getting in touch. This is a sample form, so nothing was delivered. A live version would reply
           within two working days.
         </p>
-        <button type="button" className="mt-6 font-medium underline underline-offset-4" onClick={() => setSent(false)}>
+        <button type="button" className="mt-6 font-medium text-butter underline underline-offset-4" onClick={() => setSent(false)}>
           Send another message
         </button>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="on-paper space-y-5">
-      <div>
+    <form onSubmit={handleSubmit(onSubmit, () => setAttempt((n) => n + 1))} noValidate className="on-paper space-y-5">
+      <div key={`name-${errors.name ? attempt : 0}`} className={errors.name ? "animated headShake" : ""}>
         <label htmlFor="name" className="font-medium">Your name</label>
         <input
           id="name"
@@ -61,7 +72,7 @@ export function ContactForm() {
         />
         {errors.name && <p id="name-err" className="mt-1 text-sm text-red-700">{errors.name.message}</p>}
       </div>
-      <div>
+      <div key={`email-${errors.email ? attempt : 0}`} className={errors.email ? "animated headShake" : ""}>
         <label htmlFor="email" className="font-medium">Email</label>
         <input
           id="email"
@@ -74,7 +85,7 @@ export function ContactForm() {
         />
         {errors.email && <p id="email-err" className="mt-1 text-sm text-red-700">{errors.email.message}</p>}
       </div>
-      <div>
+      <div key={`message-${errors.message ? attempt : 0}`} className={errors.message ? "animated headShake" : ""}>
         <label htmlFor="message" className="font-medium">What are you building?</label>
         <textarea
           id="message"
