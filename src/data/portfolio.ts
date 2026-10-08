@@ -1,214 +1,244 @@
-export type PortfolioProject = {
+export type Project = {
   id: string;
   name: string;
-  shortPitch: string;
+  discipline: string;
+  pitch: string;
   year: number;
-  status: "Live" | "In Progress" | "Case Study";
+  status: "Live" | "Case study" | "Prototype";
   featured: boolean;
   tags: string[];
   stack: string[];
-  links: {
-    live?: string;
-    github?: string;
-  };
+  hue: number;
+  problem: string;
+  approach: string;
+  result: string;
+  links: { live?: string; github?: string };
 };
 
+// Sample content: the name, employers and projects below are fictional.
 export const portfolio = {
   profile: {
-    name: "Sazzad Ali",
-    title: "Frontend Developer • Next.js • UI Engineering",
-    shortIntro:
-      "I build product-style web experiences with strong UX states, clean architecture, and performance-first UI.",
-    location: "Sydney, Australia",
-    email: "find.sazzadali@gmail.com",
-    socials: {
-      github: "https://github.com/your-handle",
-      linkedin: "https://linkedin.com/in/your-handle",
-      x: "https://x.com/your-handle",
-    },
-    resumeLink: "https://example.com/your-resume.pdf",
-  },
-
-  heroRotatingPhrases: [
-    "design systems that scale",
-    "Next.js App Router patterns",
-    "accessible UI with polish",
-    "fast, clean, data-driven pages",
-    "frontend architecture that stays sane",
-    "colorful UI that still feels premium",
-  ],
-
-  about: {
-    bio:
-      "I’m a product-minded frontend developer who cares about the boring-but-important details: UX states, accessibility, performance, and maintainable structure. I love turning messy ideas into clean UI systems with clear data boundaries — so swapping mock data for real APIs later is painless.",
-    details: [
-      { label: "Focus", value: "UI Engineering, App Router, Component Systems" },
-      { label: "Strengths", value: "Clean UX states, reusable components, responsive layout" },
-      { label: "Currently", value: "Building Portfolion2026 (deployable, backend-ready)" },
-      { label: "Open to", value: "Junior Frontend / Web Developer roles" },
+    name: "Mara Lindqvist",
+    first: "Mara",
+    last: "Lindqvist",
+    title: "Design engineer",
+    intro:
+      "I design and build web products that feel fast, clear and a little bit delightful, from the first sketch to the production deploy.",
+    location: "Melbourne, Australia",
+    timezone: "AEST (UTC+10)",
+    email: "hello@maralindqvist.example",
+    availability: "Booking new projects from November",
+    socials: [
+      { label: "GitHub", href: "https://github.com" },
+      { label: "LinkedIn", href: "https://linkedin.com" },
+      { label: "Dribbble", href: "https://dribbble.com" },
     ],
   },
 
+  about: [
+    "I'm a design engineer with seven years of experience shipping interfaces for startups and product teams. I work in the space between design and code, so decisions don't get lost in handoff.",
+    "My focus is design systems, data-heavy dashboards and marketing sites that load quickly and read well on every screen. I care about the unglamorous details: empty states, error messages, keyboard focus and loading behaviour.",
+    "Outside of client work I write about interface craft and mentor junior designers who want to learn to code.",
+  ],
+
+  facts: [
+    { label: "Based in", value: "Melbourne, Australia" },
+    { label: "Experience", value: "7 years" },
+    { label: "Works with", value: "Startups, agencies, product teams" },
+    { label: "Languages", value: "English, Swedish" },
+  ],
+
+  services: [
+    {
+      name: "Product interfaces",
+      body: "Dashboards, onboarding flows and settings screens designed against real data and built in React.",
+    },
+    {
+      name: "Design systems",
+      body: "Tokens, components and documentation that a team can actually adopt, with accessibility built in.",
+    },
+    {
+      name: "Marketing sites",
+      body: "Fast, well-written sites with clean SEO, tuned to hit Core Web Vitals on mid-range phones.",
+    },
+  ],
+
   skills: [
+    { group: "Design", items: ["Interface design", "Prototyping", "Design systems", "Typography", "Motion"] },
+    { group: "Engineering", items: ["TypeScript", "React", "Next.js", "Tailwind CSS", "Node.js"] },
+    { group: "Quality", items: ["Accessibility (WCAG 2.2)", "Performance budgets", "Playwright", "Storybook"] },
+    { group: "Tools", items: ["Figma", "Vercel", "GitHub Actions", "Supabase", "Linear"] },
+  ],
+
+  experience: [
     {
-      category: "Frontend",
-      items: [
-        { label: "Next.js (App Router)", icon: "Layout" },
-        { label: "React", icon: "Atom" },
-        { label: "TypeScript", icon: "Braces" },
-        { label: "Tailwind CSS", icon: "Palette" },
-        { label: "Accessibility (WCAG)", icon: "BadgeCheck" },
+      company: "Fieldnote",
+      role: "Senior design engineer",
+      period: "2023 to now",
+      place: "Remote",
+      points: [
+        "Led the design system used by four product squads, cutting new-screen build time by about a third.",
+        "Rebuilt the analytics dashboard, improving interaction latency from 380ms to under 100ms.",
+        "Introduced accessibility checks in CI; the app now passes WCAG 2.2 AA on all core flows.",
       ],
     },
     {
-      category: "UI / Product",
-      items: [
-        { label: "shadcn/ui + Radix", icon: "SquareStack" },
-        { label: "Design Tokens", icon: "SwatchBook" },
-        { label: "UX States", icon: "Layers" },
-        { label: "Micro-interactions", icon: "Sparkles" },
+      company: "Northbeam Studio",
+      role: "Front-end developer",
+      period: "2020 to 2023",
+      place: "Melbourne",
+      points: [
+        "Delivered 18 client sites and apps across retail, health and education.",
+        "Built the studio's component starter, reused on every project after launch.",
+        "Mentored two junior developers through their first year.",
       ],
     },
     {
-      category: "Backend-Ready",
-      items: [
-        { label: "API Boundaries", icon: "PlugZap" },
-        { label: "Server Actions (ready)", icon: "Server" },
-        { label: "Route Handlers (ready)", icon: "Route" },
-        { label: "Auth/DB integration points", icon: "KeyRound" },
+      company: "Kettle & Co.",
+      role: "Junior designer",
+      period: "2018 to 2020",
+      place: "Sydney",
+      points: [
+        "Designed packaging, print and web for independent food brands.",
+        "Taught myself front-end development and shipped the studio's first coded sites.",
       ],
     },
   ],
 
   education: [
     {
-      school: "Sydney Institute of Higher Education",
-      program: "Master of Information Technology",
-      period: "2024 — 2026",
-      highlights: ["Security & networking foundations", "Project-based assessments", "Team collaboration"],
+      school: "RMIT University",
+      program: "Bachelor of Design (Communication Design)",
+      period: "2014 to 2017",
     },
     {
-      school: "Your University",
-      program: "Bachelor of IT",
-      period: "2020 — 2023",
-      highlights: ["Dean’s List", "Capstone web app", "Strong CS fundamentals"],
+      school: "Google",
+      program: "UX Design Professional Certificate",
+      period: "2019",
     },
   ],
 
-  experience: [
-    {
-      company: "Freelance / Personal Projects",
-      role: "Frontend Developer",
-      period: "2024 — Present",
-      summary:
-        "Shipping product-style Next.js apps with reusable components, clean routing, and real UX states. Focus on scalable UI + backend-ready boundaries.",
-    },
-    {
-      company: "Example Company",
-      role: "Junior Web Developer (Intern)",
-      period: "2023 — 2024",
-      summary:
-        "Built responsive UI, maintained components, improved performance, and shipped features with design + product feedback loops.",
-    },
+  recognition: [
+    { title: "Site of the Day", issuer: "Awwwards", year: "2025" },
+    { title: "Best Design System", issuer: "Australian Web Awards", year: "2024" },
+    { title: "Speaker, Interface craft", issuer: "Melbourne Front-End Meetup", year: "2024" },
+    { title: "Open-source maintainer, 2.1k stars", issuer: "GitHub", year: "2023" },
   ],
 
   projects: [
     {
-      id: "portfolion2026",
-      name: "Portfolion2026",
-      shortPitch: "Product-style portfolio with scrollspy, filterable projects, SEO, and backend injection points.",
-      year: 2026,
-      status: "In Progress",
-      featured: true,
-      tags: ["Portfolio", "UI System", "App Router"],
-      stack: ["Next.js", "TypeScript", "Tailwind", "shadcn/ui"],
-      links: { live: "https://example.com", github: "https://github.com/your-handle/portfolion2026" },
-    },
-    {
-      id: "jobtrack",
-      name: "JobTrack",
-      shortPitch: "Job application tracker with clean UX states, persistence, and export-ready data model.",
-      year: 2026,
-      status: "Case Study",
-      featured: true,
-      tags: ["Productivity", "UX States"],
-      stack: ["Next.js", "React", "TypeScript"],
-      links: { live: "https://example.com", github: "https://github.com/your-handle/jobtrack" },
-    },
-    {
-      id: "orbitpaws",
-      name: "OrbitPaws",
-      shortPitch: "Colorful e-commerce frontend with strong components and conversion-friendly layout.",
-      year: 2026,
+      id: "fieldnote-dashboard",
+      name: "Fieldnote Dashboard",
+      discipline: "Product interface",
+      pitch: "An analytics dashboard for field researchers that stays quick with 50,000 rows on screen.",
+      year: 2025,
       status: "Live",
       featured: true,
-      tags: ["E-commerce", "UI"],
-      stack: ["Next.js", "Tailwind", "shadcn/ui"],
-      links: { live: "https://example.com", github: "https://github.com/your-handle/orbitpaws" },
+      tags: ["Product", "Data", "Design system"],
+      stack: ["Next.js", "TypeScript", "Tailwind CSS", "Postgres"],
+      hue: 232,
+      problem:
+        "Researchers were exporting data to spreadsheets because the old dashboard froze on large studies.",
+      approach:
+        "I redesigned the table around virtualised rows, saved views and keyboard navigation, then rebuilt the charts so they render on the server and hydrate on demand.",
+      result:
+        "Interaction latency fell from 380ms to under 100ms and weekly active use doubled within two months.",
+      links: { live: "https://example.com", github: "https://github.com" },
     },
     {
-      id: "sitebazaar",
-      name: "SiteBazaar",
-      shortPitch: "Marketplace UI for buying/selling websites with bidding-ready patterns.",
-      year: 2026,
-      status: "In Progress",
-      featured: false,
-      tags: ["Marketplace", "Bidding"],
-      stack: ["Next.js", "TypeScript"],
-      links: { github: "https://github.com/your-handle/sitebazaar" },
-    },
-    {
-      id: "linkedinfmt",
-      name: "LinkedIn Text Formatter (Clone+)",
-      shortPitch: "Formatter tool with clean typography preview and copy UX.",
-      year: 2026,
-      status: "Case Study",
-      featured: false,
-      tags: ["Tooling", "Text"],
-      stack: ["Next.js", "TypeScript", "Tailwind"],
+      id: "harbour-market",
+      name: "Harbour Market",
+      discipline: "E-commerce",
+      pitch: "A storefront for a family-run seafood supplier, built around fast reordering.",
+      year: 2025,
+      status: "Live",
+      featured: true,
+      tags: ["E-commerce", "Marketing site"],
+      stack: ["Next.js", "Stripe", "Sanity"],
+      hue: 18,
+      problem:
+        "Restaurants reordered by phone every week, and the previous website made that slower, not faster.",
+      approach:
+        "I put 'reorder last week' on the first screen, wrote clearer product copy with the owners, and made checkout a single page.",
+      result:
+        "Online orders went from 12% to 61% of total sales in the first quarter.",
       links: { live: "https://example.com" },
     },
     {
-      id: "uikit",
-      name: "UI Kit Playground",
-      shortPitch: "Component gallery + styleguide page for tokens, variants, and accessibility checks.",
-      year: 2026,
-      status: "In Progress",
-      featured: false,
-      tags: ["Design System", "Components"],
-      stack: ["shadcn/ui", "Tailwind"],
-      links: { github: "https://github.com/your-handle/ui-kit" },
+      id: "tidepool-ui",
+      name: "Tidepool UI",
+      discipline: "Design system",
+      pitch: "An open-source React component library with tokens, docs and an accessibility audit for each component.",
+      year: 2024,
+      status: "Live",
+      featured: true,
+      tags: ["Design system", "Open source"],
+      stack: ["React", "TypeScript", "Storybook", "Radix"],
+      hue: 172,
+      problem:
+        "Teams kept rebuilding the same dropdowns and dialogs, each with a different set of keyboard bugs.",
+      approach:
+        "I built primitives on Radix, documented every state in Storybook and published an audit note next to each component.",
+      result:
+        "Adopted by 40 teams and 2.1k GitHub stars, with a 96% accessibility audit pass rate.",
+      links: { live: "https://example.com", github: "https://github.com" },
     },
     {
-      id: "cms-blog-shell",
-      name: "Blog Shell (CMS-ready)",
-      shortPitch: "Static blog structure prepared for Contentful/Sanity later (routing + SEO patterns).",
-      year: 2026,
-      status: "Case Study",
+      id: "lumen-health",
+      name: "Lumen Health",
+      discipline: "Product interface",
+      pitch: "A patient booking flow designed for people using phones in poor light and with poor signal.",
+      year: 2024,
+      status: "Case study",
       featured: false,
-      tags: ["Blog", "SEO"],
-      stack: ["Next.js", "MDX"],
+      tags: ["Product", "Accessibility"],
+      stack: ["React", "TypeScript", "Playwright"],
+      hue: 288,
+      problem: "Drop-off in the booking flow was highest on small phones and slow connections.",
+      approach:
+        "I cut the flow from seven steps to three, enlarged touch targets and made every step work without JavaScript.",
+      result: "Completed bookings rose by 28% and support calls about booking fell by a fifth.",
       links: {},
     },
     {
-      id: "contact-patterns",
-      name: "Contact Patterns",
-      shortPitch: "Forms with validation, draft persistence, and server-action swap readiness.",
-      year: 2026,
-      status: "Case Study",
+      id: "paper-trail",
+      name: "Paper Trail",
+      discipline: "Prototype",
+      pitch: "A writing app prototype that keeps every draft, searchable and diffable, without folders.",
+      year: 2024,
+      status: "Prototype",
       featured: false,
-      tags: ["Forms", "Validation"],
-      stack: ["React Hook Form", "Zod"],
-      links: {},
+      tags: ["Prototype", "Tooling"],
+      stack: ["Next.js", "Supabase", "Framer Motion"],
+      hue: 48,
+      problem: "Writers lose earlier drafts and fear deleting anything.",
+      approach:
+        "I designed a timeline view where each draft is a visible line, and built it as a working prototype for user testing.",
+      result: "Five of six test participants found an old draft within 20 seconds, unprompted.",
+      links: { github: "https://github.com" },
     },
-  ] satisfies PortfolioProject[],
+    {
+      id: "orchard-school",
+      name: "Orchard School",
+      discipline: "Marketing site",
+      pitch: "A primary school website that parents can use one-handed and teachers can edit without help.",
+      year: 2023,
+      status: "Live",
+      featured: false,
+      tags: ["Marketing site", "Accessibility"],
+      stack: ["Next.js", "Sanity", "Tailwind CSS"],
+      hue: 128,
+      problem: "The old site was out of date because nobody on staff felt confident updating it.",
+      approach:
+        "I modelled the content around what teachers post each week and gave them a three-field editor.",
+      result: "Pages are now updated weekly and the Lighthouse score is 99 on mobile.",
+      links: { live: "https://example.com" },
+    },
+  ] satisfies Project[],
+};
 
-  achievements: [
-    { title: "Built 5+ product-style Next.js apps", issuer: "Personal Projects", date: "2026-01" },
-    { title: "Shipped reusable UI system + tokens", issuer: "Portfolion2026", date: "2026-01" },
-    { title: "Improved Lighthouse score to 90+", issuer: "Case Study", date: "2025-12" },
-    { title: "Implemented accessible forms (WCAG-friendly)", issuer: "Case Study", date: "2025-11" },
-    { title: "Deployed multiple sites to Vercel", issuer: "Vercel", date: "2025-10" },
-    { title: "Consistent content + project shipping cadence", issuer: "Public Portfolio", date: "2025-09" },
-  ],
-} as const;
+export const allTags = Array.from(new Set(portfolio.projects.flatMap((p) => p.tags))).sort();
+
+export function getProject(id: string) {
+  return portfolio.projects.find((p) => p.id === id);
+}

@@ -1,86 +1,24 @@
 # Portfolion2026
 
-A colorful, product-style portfolio built with **Next.js App Router**, **TypeScript**, **Tailwind**, and **shadcn/ui**.
-It’s fully demoable without a backend (mock content + client-safe patterns) and intentionally designed with clean **backend injection points** for future expansion.
+A sample design-engineer portfolio built with Next.js (App Router), TypeScript and Tailwind CSS. It is meant as a starting point and demo for client sites. The person, employers and projects shown are fictional.
 
-## Live
-- Demo: (add your Vercel link)
-- Resume PDF: (add link)
+Live demo: https://portfolion2026.vercel.app
 
-## Why this project is different
-Most portfolios are static templates. This one behaves like a product:
-- Multi-page App Router structure (Home + Projects + Resume + Styleguide)
-- Scrollspy navigation (active section highlight)
-- URL-driven projects filtering/sorting (shareable state)
-- Clear UI states (empty results, form success/error)
-- Design tokens + cohesive color system (not random rainbow)
-- Backend-ready boundaries (server actions/route handlers can be added later)
+## What's inside
+- Home page with a variable-font hero name that reacts to the pointer, a selected-work index with live cover preview, about, services, skills, recognition and a validated contact form
+- `/projects` with topic filters driven by the URL, and a case-study page for every project
+- `/resume` as a print-ready document ("Save as PDF" uses the browser print dialog)
+- All content lives in `src/data/portfolio.ts`, so swapping in a real person takes minutes
+- Accessible by default: skip link, visible focus, reduced-motion support, semantic landmarks
 
-## Tech Stack
-- Next.js (App Router)
-- React + TypeScript
-- Tailwind CSS
-- shadcn/ui (Radix primitives)
-- react-hook-form + zod (forms)
-- lucide-react (icons)
-
-## Local Setup
+## Run locally
 ```bash
 npm install
 npm run dev
 ```
-## Project Structure
-```bash
-src/
-  app/                 # App Router pages
-  components/
-    ui/                # shadcn components
-    site/              # reusable site components
-  data/                # portfolio content single source of truth
-  lib/                 # utilities (hooks/helpers)
-```
-## Backend Injection Points (Future)
 
-**Planned upgrade path:**
-<ul>
-    Contact form → server action (Resend / EmailJS / API route)
-
-    Projects → fetched from DB (Postgres + Prisma)
-
-    Auth → NextAuth/Clerk integration
-
-    CMS → blog via Contentful/Sanity/MDX
-</ul>
-
-## License
-
- **MIT**
-
-### `CONTRIBUTING.md`
-```md
-# Contributing to Portfolion2026
-
-## Goals
-- Keep the site fast, accessible, and cleanly structured.
-- Avoid UI soup: shadcn/ui is the “soul”; other patterns only if they clearly add value.
-
-## How to add a new section
-1. Add content in `src/data/portfolio.ts`
-2. Create a component in `src/components/site/sections/`
-3. Render it from `src/app/page.tsx`
-4. Add the section id to the navbar sections list
-
-## Backend-ready rules
-- Prefer server components by default
-- Use client components only for:
-  - scrollspy / intersection observer
-  - localStorage persistence
-  - form handling
-- Keep “data boundaries” clean (swap mock data → API later)
-
-## PR Checklist
-- Keyboard navigation works
-- Focus rings visible
-- Reduced motion respected
-- No heavy animation libs
-- No layout shift regressions
+## Customise
+1. Edit `src/data/portfolio.ts` (name, bio, experience, projects).
+2. Adjust colours in `src/app/globals.css` (`:root` tokens).
+3. Replace the generated cover art in `src/components/site/ProjectThumb.tsx` with real screenshots if wanted.
+4. Connect `ContactForm.tsx` to a server action or email service.

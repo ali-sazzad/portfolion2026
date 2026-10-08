@@ -1,19 +1,34 @@
 import type { Metadata } from "next";
+import { Bricolage_Grotesque, Newsreader } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import { Navbar } from "@/components/site/Navbar";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { portfolio } from "@/data/portfolio";
+
+const display = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-display",
+  axes: ["opsz", "wdth"],
+});
+
+const prose = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-prose",
+  style: ["normal", "italic"],
+});
+
+const { name, title, intro } = portfolio.profile;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://portfolion2026.vercel.app"),
   title: {
-    default: "Portfolion2026 — Product-style Portfolio",
-    template: "%s • Portfolion2026",
+    default: `${name}, ${title}`,
+    template: `%s | ${name}`,
   },
-  description:
-    "A colorful, product-style portfolio built with Next.js App Router, TypeScript, Tailwind, and shadcn/ui — demoable without a backend, backend-ready by design.",
+  description: intro,
   openGraph: {
-    title: "Portfolion2026 — Product-style Portfolio",
-    description: "Colorful, modern, structured like a real product — backend-ready by design.",
+    title: `${name}, ${title}`,
+    description: intro,
     type: "website",
   },
   robots: { index: true, follow: true },
@@ -21,11 +36,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen antialiased">
-        <Navbar />
-        {children}
-        <Toaster richColors />
+    <html lang="en" className={`${display.variable} ${prose.variable}`}>
+      <body className="min-h-screen">
+        <a href="#main" className="skip-link">Skip to content</a>
+        <SiteHeader />
+        <main id="main">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );
